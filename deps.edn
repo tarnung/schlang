@@ -1,6 +1,8 @@
 {:deps  {org.clojure/clojure {:mvn/version "1.9.0"}
          play-cljs           {:git/url "https://github.com/oakes/play-cljs"
                               :sha     "3f3c665bc5f47a6195ad64cd354bbba1d984a013"}
+         cljs-bach {:mvn/version "0.3.0"}
+         leipzig {:mvn/version "0.10.0"}
          com.bhauman/figwheel-main {:mvn/version "0.1.9"}
          com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}}
  :paths ["src" "target" "resources"]

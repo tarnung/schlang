@@ -1,5 +1,7 @@
 (ns schlang.core
-  (:require [play-cljs.core :as p]))
+  (:require [play-cljs.core :as p]
+            [schlang.klang.core :as k]
+            [schlang.vector :as v]))
 
 (enable-console-print!)
 
@@ -180,20 +182,41 @@
                                          :width  eye-width}]])
                               (food [x y])
                               (let [eye-width (/ tile-width 4)
-                                    eye-height (/ tile-width 4)]
+                                    eye-height (/ tile-width 4)
+                                    pupil-width (/ eye-width 2)
+                                    pupil-height (/ eye-height 2)
+                                    [x-offset y-offset] (v/unit-circle [x y] (first body))]
                                 [:fill {:color "green"}
                                  [:rect {:x      (+ (- (/ tile-width 4) (/ eye-width 2))
                                                     (* (rand) (/ eye-width 4)))
                                          :y      (+ (- (/ tile-height 4) (/ eye-height 2))
                                                     (* (rand) (/ eye-width 4)))
                                          :height eye-height
-                                         :width  eye-width}]
+                                         :width  eye-width}
+                                  [:fill {:color "black"}
+                                   [:rect {:x      (+ (- (/ eye-width 2)
+                                                         (/ pupil-width 2))
+                                                      (* (/ pupil-width 2) x-offset))
+                                           :y      (+ (- (/ eye-height 2)
+                                                         (/ pupil-height 2))
+                                                      (* (/ pupil-height 2) y-offset))
+                                           :height pupil-height
+                                           :width  pupil-width}]]]
                                  [:rect {:x      (+ (- (* 3 (/ tile-width 4)) (/ eye-width 2))
                                                     (* (rand) (/ eye-width 4)))
                                          :y      (+ (- (/ tile-height 4) (/ eye-height 2))
                                                     (* (rand) (/ eye-height 4)))
                                          :height eye-height
-                                         :width  eye-width}]]))]])]]))
+                                         :width  eye-width}
+                                  [:fill {:color "black"}
+                                   [:rect {:x      (+ (- (/ eye-width 2)
+                                                         (/ pupil-width 2))
+                                                      (* (/ pupil-width 2) x-offset))
+                                           :y      (+ (- (/ eye-height 2)
+                                                         (/ pupil-height 2))
+                                                      (* (/ pupil-height 2) y-offset))
+                                           :height pupil-height
+                                           :width  pupil-width}]]]]))]])]]))
       (let [old-key (-> @*state :player :key-pressed)
             pressed-keys (p/get-pressed-keys game)]
         (swap! *state (fn [s]
@@ -253,7 +276,6 @@
 
 
 ; start the game
-(comment
-  (doto game
-   (p/start)
-   (p/set-screen menu-screen)))
+(doto game
+  (p/start)
+  (p/set-screen menu-screen))
